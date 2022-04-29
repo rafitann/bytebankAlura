@@ -29,7 +29,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
         body:
             ListaTransferencia() // This trailing comma makes auto-formatting nicer for build methods.
         );
@@ -117,27 +117,31 @@ class Editor extends StatelessWidget {
   }
 }
 
+
+//
+
+
 class ListaTransferencia extends StatelessWidget {
-  const ListaTransferencia({Key? key}) : super(key: key);
+  final List<Transferencia> _transferencias = [];
 
   @override
   Widget build(BuildContext context) {
+    _transferencias.add(Transferencia(98888.00, 09877));
+    _transferencias.add(Transferencia(99888.00, 077700007));
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: const Text(
           'Transferências',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          ItemTransferencia(Transferencia(500, 9432288)),
-          ItemTransferencia(Transferencia(900, 943000008)),
-          ItemTransferencia(Transferencia(4400, 94777888)),
-        ],
+      body: ListView.builder(
+        itemCount: _transferencias.length,
+        itemBuilder: (context,index){
+         final transfer =  _transferencias[index];
+          return ItemTransferencia(transfer);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -146,6 +150,7 @@ class ListaTransferencia extends StatelessWidget {
           }));
           futere.then((transferenciaRecebida){
             debugPrint('$transferenciaRecebida');
+            _transferencias.add(transferenciaRecebida!);
           });
         },
         child: const Icon(
@@ -157,6 +162,9 @@ class ListaTransferencia extends StatelessWidget {
   }
 }
 
+
+
+//
 class ItemTransferencia extends StatelessWidget {
   final Transferencia _transfer;
 
