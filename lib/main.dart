@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return  Scaffold(
         body:
-            ListaTransferencias() // This trailing comma makes auto-formatting nicer for build methods.
+            ListaTransferencias()
         );
   }
 }
@@ -117,13 +117,6 @@ class Editor extends StatelessWidget {
   }
 }
 
-
-//
-
-
-
-
-
 class ListaTransferencias extends StatefulWidget {
   final List<Transferencia> _transferencias = [];
 
@@ -169,11 +162,6 @@ class ListaTransferenciasState extends State<ListaTransferencias>{
   }
 }
 
-
-
-
-
-//
 class ItemTransferencia extends StatelessWidget {
   final Transferencia _transfer;
 
