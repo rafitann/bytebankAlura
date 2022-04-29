@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   runApp(const BytebankApp());
 }
 
@@ -29,14 +29,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        body:
-            ListaTransferencias()
-        );
+    return Scaffold(body: ListaTransferencias());
   }
 }
 
-class FormularioTransferencia extends StatelessWidget {
+class FormularioTransferencia extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return FormularioTransferenciaState();
+  }
+}
+
+class FormularioTransferenciaState extends State<FormularioTransferencia> {
   final TextEditingController _controllerNumero = TextEditingController();
   final TextEditingController _controllerValor = TextEditingController();
 
@@ -49,7 +53,8 @@ class FormularioTransferencia extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Padding(
                 padding: EdgeInsets.all(16.0),
@@ -76,7 +81,7 @@ class FormularioTransferencia extends StatelessWidget {
               ),
             ),
           ],
-        ));
+        )));
   }
 
   void _criarTransferencia(BuildContext context) {
@@ -87,7 +92,7 @@ class FormularioTransferencia extends StatelessWidget {
       final transfer = Transferencia(valor, numerodaConta);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('$transfer')));
-      Navigator.pop(context,transfer);
+      Navigator.pop(context, transfer);
     }
   }
 }
@@ -126,7 +131,7 @@ class ListaTransferencias extends StatefulWidget {
   }
 }
 
-class ListaTransferenciasState extends State<ListaTransferencias>{
+class ListaTransferenciasState extends State<ListaTransferencias> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,18 +144,24 @@ class ListaTransferenciasState extends State<ListaTransferencias>{
       ),
       body: ListView.builder(
         itemCount: widget._transferencias.length,
-        itemBuilder: (context,index){
-          final transfer =  widget._transferencias[index];
+        itemBuilder: (context, index) {
+          final transfer = widget._transferencias[index];
           return ItemTransferencia(transfer);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final Future future = Navigator.push(context, MaterialPageRoute(builder: (context) {
+          final Future future =
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormularioTransferencia();
           }));
-          future.then((transferenciaRecebida){
-            transferenciaRecebida != null ? setState(() => widget._transferencias.add(transferenciaRecebida)) : "";
+          future.then((transferenciaRecebida) {
+            Future.delayed(const Duration(seconds: 2), () {
+              transferenciaRecebida != null
+                  ? setState(
+                      () => widget._transferencias.add(transferenciaRecebida))
+                  : null;
+            });
           });
         },
         child: const Icon(
