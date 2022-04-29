@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return  Scaffold(
         body:
-            ListaTransferencia() // This trailing comma makes auto-formatting nicer for build methods.
+            ListaTransferencias() // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
 }
@@ -121,13 +121,21 @@ class Editor extends StatelessWidget {
 //
 
 
-class ListaTransferencia extends StatelessWidget {
+
+
+
+class ListaTransferencias extends StatefulWidget {
   final List<Transferencia> _transferencias = [];
 
   @override
+  State<StatefulWidget> createState() {
+    return ListaTransferenciasState();
+  }
+}
+
+class ListaTransferenciasState extends State<ListaTransferencias>{
+  @override
   Widget build(BuildContext context) {
-    _transferencias.add(Transferencia(98888.00, 09877));
-    _transferencias.add(Transferencia(99888.00, 077700007));
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -137,20 +145,19 @@ class ListaTransferencia extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: _transferencias.length,
+        itemCount: widget._transferencias.length,
         itemBuilder: (context,index){
-         final transfer =  _transferencias[index];
+          final transfer =  widget._transferencias[index];
           return ItemTransferencia(transfer);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final Future<Transferencia?>futere = Navigator.push(context, MaterialPageRoute(builder: (context) {
+          final Future future = Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormularioTransferencia();
           }));
-          futere.then((transferenciaRecebida){
-            debugPrint('$transferenciaRecebida');
-            _transferencias.add(transferenciaRecebida!);
+          future.then((transferenciaRecebida){
+            transferenciaRecebida != null ? setState(() => widget._transferencias.add(transferenciaRecebida)) : "";
           });
         },
         child: const Icon(
@@ -161,6 +168,8 @@ class ListaTransferencia extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
