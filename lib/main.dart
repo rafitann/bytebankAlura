@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bytebank/colors.dart';
 
 void main() async {
   runApp(const BytebankApp());
@@ -12,7 +13,12 @@ class BytebankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+        brightness: Brightness.light,
+        colorScheme: ThemeData.light().colorScheme.copyWith(
+          primary: red100,
+          onPrimary: darkPink,
+          secondary:purpleLight,
+        )
       ),
       home: const MyHomePage(),
     );
